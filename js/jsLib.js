@@ -46,6 +46,7 @@ class TrelloBoard {
       for (const item of json) {
         let obj = {
           id: item.id,
+          list_id: list_id,
           title: item.name,
           description: item.desc,
           due: null,
@@ -100,5 +101,26 @@ class TrelloBoard {
     } else {
       throw 'SOMETHING WENT WRONG';
     }
+  }
+  async getCardsByDate(date, checklists = false, lists = null) {
+    if (lists === null) {
+      lists = await this.getLists();
+    }
+    let startDate = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)).getTime() / 1000;
+    let endDate = startDate + 24 * 3600 - 1;
+    let cards = [];
+    let cardsNull = [];
+    for (const list of lists) {
+      let listCards = await this.getListCards(list.id, checklists);
+      listCards.forEach(item => {
+        if (item.due === null) {
+          cardsNull.push(item);
+        } else if (item.due >= startDate && item.due <= endDate) {
+          cards.push(item);
+        }
+      });
+    }
+    cardsNull.forEach(item => cards.push(item));
+    return cards;
   }
 }

@@ -6,6 +6,9 @@
     console.log(lists);
     let cards = await api.getListCards(lists[2].id, true);
     console.log(cards);
+
+    cards = await api.getCardsByDate(new Date(2022, 3, 6));
+    console.log(cards);
   }
 
   start();
