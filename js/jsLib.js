@@ -10,7 +10,7 @@ class TrelloBoard {
   async checkCredentals() {
     let resp = await fetch(`https://api.trello.com/1/boards/${this.boardID}/?key=${this.key}&token=${this.token}`);
     if (resp.ok) {
-      let json = await resp.json();
+      return {status: 'success'};
     } else if (resp.status === 401) {
       throw 'INVALID CREDENTIALS';
     } else if (resp.status === 404) {
@@ -135,7 +135,6 @@ class TrelloBoard {
       })
     });
     if (resp.ok) {
-      let json = await resp.json();
       return {status: 'success'};
     } else {
       throw 'SOMETHING WENT WRONG';
