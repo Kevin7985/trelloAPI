@@ -1,0 +1,13 @@
+<script type = "text/javascript" src = "jsLib.js"></script>
+<script type = "text/javascript">
+  async function start() {
+    let api = new TrelloBoard('key', 'token', 'boardID');
+    let lists = await api.getLists();
+    console.log(lists);
+    let cards = await api.getListCards(lists[2].id, true);
+    console.log(cards);
+  }
+
+  start();
+  // let cards = api.getListCards(lists[0].id);
+</script>
