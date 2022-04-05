@@ -140,4 +140,31 @@ class TrelloBoard {
       throw 'SOMETHING WENT WRONG';
     }
   }
+
+  async createCard(list, title, description = '', due = null) {
+    let body = {
+      idList: list.id,
+      name: title
+    };
+    if (description.length !== 0) {
+      body.desc = description;
+    }
+    if (due !== null) {
+      due = `${due.getFullYear()}-${due.getMonth() + 1}-${due.getDate()} ${due.getHours()}:${due.getMinutes()}:${due.getSeconds()}`;
+      body.due = `${due} +3`;
+    }
+
+    let resp = await fetch(`https://api.trello.com/1/cards/?key=${this.key}&token=${this.token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (resp.ok) {
+      return {status: 'success'};
+    } else {
+      throw 'SOMETHING WENT WRONG';
+    }
+  }
 }

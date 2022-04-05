@@ -14,6 +14,9 @@
 
     let result = await api.moveCard(cards[0], lists[5]);
     console.log(result);
+
+    let result1 = await api.createCard(lists[0], 'Тестовая карточка', 'Тест', new Date(2022, 4, 12, 10, 0, 0));
+    console.log(result1);
   }
 
   start();
