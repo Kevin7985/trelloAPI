@@ -2,15 +2,19 @@
 <script type = "text/javascript">
   async function start() {
     let api = new TrelloBoard('key', 'token', 'boardID');
+
     let lists = await api.getLists();
     console.log(lists);
+
     let cards = await api.getListCards(lists[2].id, true);
     console.log(cards);
 
     cards = await api.getCardsByDate(new Date(2022, 3, 6));
     console.log(cards);
+
+    let result = await api.moveCard(cards[0], lists[5]);
+    console.log(result);
   }
 
   start();
-  // let cards = api.getListCards(lists[0].id);
 </script>

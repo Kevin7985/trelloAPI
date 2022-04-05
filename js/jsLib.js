@@ -123,4 +123,22 @@ class TrelloBoard {
     cardsNull.forEach(item => cards.push(item));
     return cards;
   }
+
+  async moveCard(card, to_list) {
+    let resp = await fetch(`https://api.trello.com/1/cards/${card.id}/?key=${this.key}&token=${this.token}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        idList: to_list.id
+      })
+    });
+    if (resp.ok) {
+      let json = await resp.json();
+      return {status: 'success'};
+    } else {
+      throw 'SOMETHING WENT WRONG';
+    }
+  }
 }
