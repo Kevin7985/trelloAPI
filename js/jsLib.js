@@ -141,6 +141,23 @@ class TrelloBoard {
     }
   }
 
+  async archiveCard(card) {
+    let resp = await fetch(`https://api.trello.com/1/cards/${card.id}/?key=${this.key}&token=${this.token}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        closed: true
+      })
+    });
+    if (resp.ok) {
+      return {status: 'success'};
+    } else {
+      throw 'SOMETHING WENT WRONG';
+    }
+  }
+
   async createCard(list, title, description = '', due = null) {
     let body = {
       idList: list.id,
